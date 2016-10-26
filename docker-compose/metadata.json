@@ -1,0 +1,35 @@
+{
+  "name": "docker-compose",
+  "description": "Installs docker, create docker-compose yml file and manages containers using docker-compose",
+  "long_description": "",
+  "maintainer": "Thiago Nache",
+  "maintainer_email": "thiagonbcarvalho@gmail.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "amazon": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "python": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "docker-compose": "Installs docker and docker-compose, log in on DockerHub and set up cronjobs"
+  },
+  "version": "0.0.1",
+  "source_url": "",
+  "issues_url": ""
+}

@@ -1,0 +1,24 @@
+{
+  "layers": {
+    "layer1": {
+      "applications": {
+        "web": {
+          "image": "nginx",
+          "ports": [ "80:80", "443:443" ],
+          "links": [ "postfix", "redis" ],
+          "volumes": ["/tmp:/tmp"]
+          "environment": {
+            "VAR1": "value1",
+            "VAR2": "value2"
+          }
+        },
+        "postfix": {
+          "image": "tozd/postfix"
+        },
+        "redis": {
+          "image": "redis"
+        }
+      }
+    }
+  }
+}

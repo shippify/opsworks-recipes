@@ -1,0 +1,20 @@
+{
+  "layers": {
+    "sensu": {
+      "applications": {
+        "sensu-client": {
+          "command": "sensu-client -d /etc/sensu/conf.d",
+          "image": "thiagonache/sensu",
+          "volumes": ["/etc/sensu/conf.d/amqp.json:/etc/sensu/conf.d/amqp.json", "/etc/sensu/conf.d/redis.json:/etc/sensu/conf.d/redis.json", "/etc/sensu/conf.d/client.json:/etc/sensu/conf.d/client.json"]
+        }
+      }
+    }
+  },
+  "sensu": {
+    "amqp": {
+      "vhost": "/sensu",
+      "user": "rabbitmqadmin",
+      "pass": "changeit"
+    }
+  }
+}

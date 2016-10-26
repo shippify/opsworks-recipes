@@ -1,0 +1,8 @@
+{
+  "rabbitmq": {
+    "host": "<%= node[:sensu][:route53][:amqp][:endpoint] %>",
+    "vhost": "<%= node[:sensu][:amqp][:vhost] %>",
+    "user": "<%= node[:sensu][:amqp][:user] %>",
+    "password": "<%= node[:sensu][:amqp][:pass] %>"
+  }
+}

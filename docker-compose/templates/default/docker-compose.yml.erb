@@ -1,0 +1,111 @@
+<% if node[:layers] and node[:layers][@my_layer] and node[:layers][@my_layer][:applications] and not node[:layers][@my_layer][:applications].empty? -%>
+  <% node[:layers][@my_layer][:applications].each_key do |app| -%>
+<%= app %>:
+  image: <%= node[:layers][@my_layer][:applications][app][:image] %>
+    <% if node[:layers][@my_layer][:applications][app][:command] -%>
+  command: <%= node[:layers][@my_layer][:applications][app][:command] %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:working_dir] -%>
+  working_dir: <%= node[:layers][@my_layer][:applications][app][:working_dir] %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:volumes] -%>
+  volumes:
+     <% node[:layers][@my_layer][:applications][app][:volumes].each do |volume| -%>
+    - <%= volume %>
+      <% end %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:expose] -%>
+  expose:
+      <% node[:layers][@my_layer][:applications][app][:expose].each do |expose| -%>
+    - <%= expose %>
+      <% end %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:environment_alias] -%>
+  environment: &envs
+      <% node[:layers][@my_layer][:applications][app][:environment_alias].each_pair do |env, value| -%>
+    <%= env %>: <%= value %>
+      <% end %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:environment] -%>
+  environment:
+      <% node[:layers][@my_layer][:applications][app][:environment].each_pair do |env, value| -%>
+    <%= env %>: <%= value %>
+      <% end %>
+    <% end %>
+
+    <% if node[:layers][@my_layer][:applications][app][:links] -%>
+  links:
+      <% node[:layers][@my_layer][:applications][app][:links].each do |link| -%>
+    - <%= link %>
+      <% end %>
+    <% end %>
+
+    <% if node[:layers][@my_layer][:applications][app][:ports] -%>
+  ports:
+      <% node[:layers][@my_layer][:applications][app][:ports].each do |port| -%>
+    - <%= port %>
+      <% end %>
+    <% end %>
+    <% if node[:layers][@my_layer][:applications][app][:privileged] -%>
+  privileged: <%= node[:layers][@my_layer][:applications][app][:privileged] %>
+    <% end %>
+  <% end %>
+<% end %>
+<% if node[:applications] %>
+<% node[:applications].each_key do |app| -%>
+<%= app %>:
+  image: <%= node[:applications][app][:image] %>
+  <% if node[:applications][app][:command] -%>
+  command: <%= node[:applications][app][:command] %>
+  <% end %>
+  <% if node[:applications][app][:working_dir] -%>
+  working_dir: <%= node[:applications][app][:working_dir] %>
+  <% end %>
+  <% if node[:applications][app][:volumes] -%>
+  volumes:
+    <% node[:applications][app][:volumes].each do |volume| -%>
+    - <%= volume %>
+    <% end %>
+  <% end %>
+
+  <% if node[:applications][app][:expose] -%>
+  expose:
+    <% node[:applications][app][:expose].each do |expose| -%>
+    - <%= expose %>
+    <% end %>
+  <% end %>
+  <% if node[:applications][app][:environment_alias] -%>
+  environment: &envs
+    <% if node[:applications][app][:environment_alias][:jboss_initial_hosts] -%>
+    JBOSS_INITIAL_HOSTS: <%= node[:applications][app][:environment_alias][:jboss_initial_hosts] %>
+    <% end %>
+    <% node[:applications][app][:environment_alias].each_pair do |env, value| -%>
+    <%= env %>: <%= value %>
+    <% end %>
+  <% end %>
+  <% if node[:applications][app][:environment] -%>
+  environment:
+    <% if node[:applications][app][:environment][:jboss_initial_hosts] -%>
+    JBOSS_INITIAL_HOSTS: <%= node[:applications][app][:environment][:jboss_initial_hosts] %>
+    <% end %>
+    <% node[:applications][app][:environment].each_pair do |env, value| -%>
+    <%= env %>: <%= value %>
+    <% end %>
+  <% end %>
+  <% if node[:applications][app][:links] -%>
+  links:
+    <% node[:applications][app][:links].each do |link| -%>
+    - <%= link %>
+    <% end %>
+  <% end %>
+  <% if node[:applications][app][:ports] -%>
+  ports:
+    <% node[:applications][app][:ports].each do |port| -%>
+    - <%= port %>
+    <% end %>
+  <% end %>
+  <% if node[:applications][app][:privileged] -%>
+  privileged: <%= node[:applications][app][:privileged] %>
+  <% end %>
+<% end %>
+<% end %>

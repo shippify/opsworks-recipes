@@ -1,0 +1,53 @@
+{
+  "layers": {
+    "sensu": {
+      "applications": {
+        "sensu-api": {
+          "ports": ["4567:4567"],
+          "command": "sensu-api -d /etc/sensu/conf.d",
+          "image": "thiagonache/sensu",
+          "volumes": ["/etc/sensu/conf.d/amqp.json:/etc/sensu/conf.d/amqp.json", "/etc/sensu/conf.d/redis.json:/etc/sensu/conf.d/redis.json"]
+        },
+        "redis": {
+          "ports": ["6379:6379"],
+          "image": "redis"
+        },
+        "sensu-client": {
+          "command": "sensu-client -d /etc/sensu/conf.d",
+          "image": "thiagonache/sensu",
+          "volumes": ["/etc/sensu/conf.d/amqp.json:/etc/sensu/conf.d/amqp.json", "/etc/sensu/conf.d/redis.json:/etc/sensu/conf.d/redis.json", "/etc/sensu/conf.d/client.json:/etc/sensu/conf.d/client.json"]
+        },
+        "sensu-server": {
+          "command": "sensu-server -d /etc/sensu/conf.d",
+          "image": "thiagonache/sensu",
+          "volumes": ["/etc/sensu/conf.d/amqp.json:/etc/sensu/conf.d/amqp.json", "/etc/sensu/conf.d/redis.json:/etc/sensu/conf.d/redis.json"]
+        },
+        "rabbitmq": {
+          "ports": ["5672:5672"],
+          "environment": {
+            "RABBITMQ_DEFAULT_PASS": "changeit",
+            "RABBITMQ_DEFAULT_VHOST": "/sensu",
+            "RABBITMQ_DEFAULT_USER": "rabbitmqadmin"
+          },
+          "image": "rabbitmq"
+        },
+        "uchiwa": {
+          "ports": ["3000:3000"],
+          "command": "/opt/uchiwa/bin/uchiwa -c /etc/sensu/uchiwa.json -d /etc/sensu/dashboard.d -p /opt/uchiwa/src/public",
+          "image": "thiagonache/uchiwa",
+          "links": ["sensu-api"]
+        }
+      }
+    }
+  },
+  "sensu": {
+    "amqp": {
+      "vhost": "/sensu",
+      "user": "rabbitmqadmin",
+      "pass": "changeit"
+    },
+    "route53": {
+      "zone_id": "XXXXXXXX"
+    }
+  }
+}

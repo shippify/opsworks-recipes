@@ -1,0 +1,34 @@
+{
+  "name": "sensu",
+  "description": "Installs and configure sensu client for hosts and creates client configuration file to containers",
+  "long_description": "",
+  "maintainer": "Thiago Nache",
+  "maintainer_email": "thiagonbcarvalho@gmail.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "amazon": ">= 0.0.0"
+  },
+  "dependencies": {
+    "route53": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "default": "See description"
+  },
+  "version": "0.0.1",
+  "source_url": "",
+  "issues_url": ""
+}
