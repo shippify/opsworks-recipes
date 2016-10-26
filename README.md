@@ -1,5 +1,5 @@
 
-# Disclaimer
+# Credits
 This repo was cloned from a bitbucket [repository](https://bitbucket.org/tnache/opsworks-recipes) from author [Thiago Nache](https://bitbucket.org/tnache)
 
 # README #
