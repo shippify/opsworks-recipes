@@ -1,5 +1,3 @@
-application node['conf-cookbook']['app_dir'] do
-  git app['app_source']['url'] do
-    deploy_key app['app_source']['ssh_key']
-  end
+application_git '/srv' do
+  git 'https://github.com/GianniCarlo/application_git'
 end
