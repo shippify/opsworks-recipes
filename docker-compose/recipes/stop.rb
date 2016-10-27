@@ -1,5 +1,4 @@
 execute 'stop containers' do
-    cwd '/docker-compose/'
     command 'docker-compose stop'
     case node[:platform]
     when 'ubuntu'
