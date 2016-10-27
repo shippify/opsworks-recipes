@@ -1,3 +1,4 @@
+package 'application'
 package 'application_git'
 
 application '/srv' do
