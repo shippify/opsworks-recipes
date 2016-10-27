@@ -7,3 +7,6 @@
 [submodule "application"]
 	path = application
 	url = https://github.com/poise/application
+[submodule "dmg"]
+	path = dmg
+	url = https://github.com/chef-cookbooks/dmg
