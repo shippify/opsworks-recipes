@@ -10,8 +10,8 @@
     "ubuntu": ">= 0.0.0"
   },
   "dependencies": {
-    "git": ">= 0.0.0"
-    "application": ">= 0.0.0"
+    "git": ">= 0.0.0",
+    "application": ">= 0.0.0",
     "application_git": ">= 0.0.0"
   },
   "recommendations": {
