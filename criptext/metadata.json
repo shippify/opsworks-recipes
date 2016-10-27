@@ -1,0 +1,34 @@
+{
+  "name": "criptext",
+  "description": "Pulls from repository",
+  "long_description": "",
+  "maintainer": "Criptext Inc",
+  "maintainer_email": "gianni@criptext.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "amazon": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "criptext": "Pulls from repository"
+  },
+  "version": "0.0.1",
+  "source_url": "",
+  "issues_url": ""
+}
