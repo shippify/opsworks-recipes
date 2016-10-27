@@ -1,6 +1,6 @@
-package 'application'
-package 'application_git'
+package 'git'
 
-application '/srv' do
-  git 'https://github.com/GianniCarlo/application_git'
+git "/home/ec2-user/repo1" do
+  repository https://github.com/myname/repo1.git
+  action :checkout
 end
