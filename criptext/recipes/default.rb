@@ -1,5 +1,5 @@
 package 'git'
 
-git '/home/ec2-user/repo' do
-  repository 'https://github.com/criptext/opsworks-recipes'
+git '/home/ec2-user/monkey-web' do
+  repository 'https://github.com/Criptext/Monkey-Web-API'
 end
