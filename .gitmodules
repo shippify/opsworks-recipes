@@ -1,12 +1,6 @@
-[submodule "application_git"]
-	path = application_git
-	url = https://github.com/GianniCarlo/application_git
 [submodule "git"]
 	path = git
 	url = https://github.com/chef-cookbooks/git
-[submodule "application"]
-	path = application
-	url = https://github.com/poise/application
 [submodule "dmg"]
 	path = dmg
 	url = https://github.com/chef-cookbooks/dmg
