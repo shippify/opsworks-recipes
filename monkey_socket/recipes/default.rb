@@ -22,11 +22,11 @@ if File.exist?('/srv/monkey_socket/docker-compose-prod.yml')
 end
 
 # populate app.env file
-app['environment'].each do |test|
+app['environment'].each do |env_var|
   ruby_block "insert_line" do
     block do
       file = Chef::Util::FileEdit.new("/srv/monkey_socket/app.env")
-      file.insert_line_if_no_match("/#{test[0]}/", "#{test[0]}=#{test[1]}")
+      file.insert_line_if_no_match("/#{env_var[0]}=#{env_var[1]}/", "#{env_var[0]}=#{env_var[1]}")
       file.write_file
     end
   end
