@@ -1,8 +1,10 @@
 
 # clone repository
 app = search("aws_opsworks_app", "shortname:monkey_web").first
+Chef::Log.info("********** The app's environment key is '#{app['app_source']['url']}' **********")
 application_git '/srv/monkey_web' do
-  repository 'git@github.com:Criptext/Monkey-Web-API.git'
+  repository app['app_source']['url']
+  revision app['app_source']['revision']
   deploy_key app['app_source']['ssh_key']
 end
 
@@ -12,9 +14,12 @@ file '/srv/monkey_web/app.env' do
 end
 
 # create docker-compose file if it doesn't exist
-file '/srv/monkey_web/docker-compose.yml' do
-  content IO.read('/srv/monkey_web/docker-compose-prod.yml')
-  action :create_if_missing
+
+if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
+  file '/srv/monkey_web/docker-compose.yml' do
+    content IO.read('/srv/monkey_web/docker-compose-prod.yml')
+    action :create_if_missing
+  end
 end
 
 # populate app.env file
