@@ -14,7 +14,7 @@ file '/srv/monkey_web/app.env' do
 end
 
 # create docker-compose file if it doesn't exist
-
+# necessary 'if' because at compile time docker-compose file doesn't exist
 if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
   file '/srv/monkey_web/docker-compose.yml' do
     content IO.read('/srv/monkey_web/docker-compose-prod.yml')

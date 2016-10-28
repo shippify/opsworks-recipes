@@ -12,9 +12,12 @@ file '/srv/monkey_socket/app.env' do
 end
 
 # create docker-compose file if it doesn't exist
-file '/srv/monkey_socket/docker-compose.yml' do
-  content IO.read('/srv/monkey_socket/docker-compose-prod.yml')
-  action :create_if_missing
+# necessary 'if' because at compile time docker-compose file doesn't exist
+if File.exist?('/srv/monkey_socket/docker-compose-prod.yml')
+  file '/srv/monkey_socket/docker-compose.yml' do
+    content IO.read('/srv/monkey_socket/docker-compose-prod.yml')
+    action :create_if_missing
+  end
 end
 
 # populate app.env file
