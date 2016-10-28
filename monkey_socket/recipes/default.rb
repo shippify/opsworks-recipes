@@ -2,7 +2,8 @@
 # clone repository
 app = search("aws_opsworks_app", "shortname:monkey_socket").first
 application_git '/srv/monkey_socket' do
-  repository 'git@github.com:Criptext/Monkey-Socket.git'
+  repository app['app_source']['url']
+  revision app['app_source']['revision']
   deploy_key app['app_source']['ssh_key']
 end
 
