@@ -10,7 +10,8 @@ end
 
 # make sure file app.env exists
 file '/srv/monkey_web/app.env' do
-  action :create_if_missing
+  content ''
+  action :create
 end
 
 # create docker-compose file if it doesn't exist
@@ -18,7 +19,7 @@ end
 if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
   file '/srv/monkey_web/docker-compose.yml' do
     content IO.read('/srv/monkey_web/docker-compose-prod.yml')
-    action :create_if_missing
+    action :create
   end
 end
 
