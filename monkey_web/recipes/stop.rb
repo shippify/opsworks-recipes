@@ -1,5 +1,5 @@
 execute 'stop containers' do
-    cwd '/docker-compose/'
+    cwd '/srv/monkey_web/'
     command 'docker-compose stop'
     case node[:platform]
     when 'ubuntu'
