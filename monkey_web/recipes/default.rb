@@ -1,7 +1,6 @@
 
 # clone repository
 app = search("aws_opsworks_app", "shortname:monkey_web").first
-Chef::Log.info("********** The app's environment key is '#{app['app_source']['url']}' **********")
 application_git '/srv/monkey_web' do
   repository app['app_source']['url']
   revision app['app_source']['revision']
