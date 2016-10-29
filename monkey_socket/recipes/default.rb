@@ -31,5 +31,3 @@ app['environment'].each do |env_var|
     end
   end
 end
-
-include_recipe 'monkey_socket::recreate'
