@@ -1,7 +1,7 @@
 if File.exist?('/srv/monkey_socket/docker-compose.yml')
   execute 'up containers' do
       cwd '/srv/monkey_socket/'
-      command 'docker-compose up -d'
+      command 'docker-compose up -d --build'
       case node[:platform]
       when 'ubuntu'
         environment 'COMPOSE_API_VERSION' => '1.18'
