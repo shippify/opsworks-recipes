@@ -1,4 +1,7 @@
-
+# make sure directory exists
+file '/srv/monkey_web' do
+  action :create
+end
 # make sure file app.env exists
 file '/srv/monkey_web/app.env' do
   content ''
