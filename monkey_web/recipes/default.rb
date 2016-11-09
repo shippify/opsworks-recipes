@@ -5,6 +5,7 @@ application_git '/srv/monkey_web' do
   repository app['app_source']['url']
   revision app['app_source']['revision']
   deploy_key app['app_source']['ssh_key']
+  action :nothing
 end
 
 # make sure file app.env exists
