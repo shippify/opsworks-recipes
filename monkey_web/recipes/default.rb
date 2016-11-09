@@ -19,10 +19,12 @@ end
 app = search("aws_opsworks_app", "shortname:monkey_web").first
 
 # create docker-compose file
-file '/srv/monkey_web/docker-compose.yml' do
-    content ::File.open('/srv/monkey_web/docker-compose-prod.yml').read
-    action :nothing
-    only_if do ::File.exists?('/srv/monkey_web/docker-compose-prod.yml') end
+if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
+  file '/srv/monkey_web/docker-compose.yml' do
+      content IO.read('/srv/monkey_web/docker-compose-prod.yml')
+      action :nothing
+      only_if do ::File.exists?('/srv/monkey_web/docker-compose-prod.yml') end
+  end
 end
 
 # populate app.env file
