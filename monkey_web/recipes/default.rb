@@ -21,9 +21,11 @@ application_git '/srv/monkey_web' do
 end
 
 # create docker-compose file
-file '/srv/monkey_web/docker-compose.yml' do
-    content IO.read('/srv/monkey_web/docker-compose-prod.yml')
-    action :nothing
+if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
+  file '/srv/monkey_web/docker-compose.yml' do
+      content IO.read('/srv/monkey_web/docker-compose-prod.yml')
+      action :nothing
+  end
 end
 
 # populate app.env file
