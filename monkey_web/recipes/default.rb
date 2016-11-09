@@ -1,7 +1,3 @@
-# make sure directory exists
-directory '/srv/monkey_web' do
-  action :create
-end
 # make sure file app.env exists
 file '/srv/monkey_web/app.env' do
   content ''
@@ -46,4 +42,12 @@ application_git '/srv/monkey_web' do
   deploy_key app['app_source']['ssh_key']
   notifies :create, 'file[/srv/monkey_web/docker-compose.yml]', :immediately
   notifies :create, 'ruby_block[insert_line]', :immediately
+  action :nothing
+  only_if do ::Dir.exists?('/srv/monkey_web') end
+end
+
+# make sure directory exists
+directory '/srv/monkey_web' do
+  action :create
+  notifies :sync, 'application_git[/srv/monkey_web]', :immediately
 end
