@@ -36,7 +36,7 @@ end
 # create docker-compose file
 file '/srv/monkey_web/docker-compose.yml' do
     action :nothing
-    content IO.read('/srv/monkey_web/docker-compose-prod.yml')
+    content lazy { IO.read('/srv/monkey_web/docker-compose-prod.yml') }
     only_if do ::File.exists?('/srv/monkey_web/docker-compose-prod.yml') end
     notifies :run, 'execute[stop-containers]', :immediately
 end
