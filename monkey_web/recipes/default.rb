@@ -64,7 +64,12 @@ file '/srv/monkey_web/app.env' do
   notifies :create, 'ruby_block[insert_line]', :immediately
 end
 
-Chef::Log.info("==================#{app['app_source']['ssh_key']}")
+# delete previous folder
+directory '/srv/monkey_web' do
+  recursive true
+  action :delete
+end
+
 # clone repository
 application_git '/srv/monkey_web' do
   repository app['app_source']['url']
@@ -72,11 +77,3 @@ application_git '/srv/monkey_web' do
   deploy_key app['app_source']['ssh_key']
   notifies :create, 'file[/srv/monkey_web/app.env]', :immediately
 end
-
-# make sure directory exists
-# directory '/srv/monkey_web' do
-#   action :create
-#   notifies :create, 'file[/srv/monkey_web/app.env]', :immediately
-#   notifies :create, 'file[/srv/monkey_web/docker-compose.yml]', :immediately
-#   notifies :sync, 'application_git[/srv/monkey_web]', :immediately
-# end
