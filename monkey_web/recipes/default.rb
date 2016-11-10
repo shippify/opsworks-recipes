@@ -11,9 +11,6 @@ file '/srv/monkey_web/docker-compose.yml' do
   only_if do ::Dir.exists?('/srv/monkey_web') end
 end
 
-# get app
-app = search("aws_opsworks_app", "shortname:monkey_web").first
-
 # create docker-compose file
 if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
   file '/srv/monkey_web/docker-compose.yml' do
@@ -35,6 +32,42 @@ ruby_block "insert_line" do
   action :nothing
 end
 
+execute 'stop-containers' do
+    only_if do ::Dir.exists?('/srv/monkey_web') end
+    cwd '/srv/monkey_web/'
+    command 'docker-compose stop'
+    action :nothing
+    case node[:platform]
+    when 'ubuntu'
+      environment 'COMPOSE_API_VERSION' => '1.18'
+    end
+end
+
+execute 'remove-containers' do
+    only_if do ::Dir.exists?('/srv/monkey_web') end
+    cwd '/srv/monkey_web/'
+    command 'docker-compose rm --force'
+    action :nothing
+    case node[:platform]
+    when 'ubuntu'
+      environment 'COMPOSE_API_VERSION' => '1.18'
+    end
+end
+
+execute 'up-containers' do
+    only_if do ::Dir.exists?('/srv/monkey_web') end
+    cwd '/srv/monkey_web/'
+    command 'docker-compose up -d --build'
+    action :nothing
+    case node[:platform]
+    when 'ubuntu'
+      environment 'COMPOSE_API_VERSION' => '1.18'
+    end
+end
+
+# get app
+app = search("aws_opsworks_app", "shortname:monkey_web").first
+Chef::Log.info("==================#{app['app_source']['ssh_key']}")
 # clone repository
 application_git '/srv/monkey_web' do
   repository app['app_source']['url']
@@ -42,14 +75,15 @@ application_git '/srv/monkey_web' do
   deploy_key app['app_source']['ssh_key']
   notifies :create, 'file[/srv/monkey_web/docker-compose.yml]', :immediately
   notifies :create, 'ruby_block[insert_line]', :immediately
-  action :nothing
-  only_if do ::Dir.exists?('/srv/monkey_web') end
+  notifies :run, 'execute[stop-containers]', :immediately
+  notifies :run, 'execute[remove-containers]', :immediately
+  notifies :run, 'execute[up-containers]', :immediately
 end
 
 # make sure directory exists
-directory '/srv/monkey_web' do
-  action :create
-  notifies :create, 'file[/srv/monkey_web/app.env]', :immediately
-  notifies :create, 'file[/srv/monkey_web/docker-compose.yml]', :immediately
-  notifies :sync, 'application_git[/srv/monkey_web]', :immediately
-end
+# directory '/srv/monkey_web' do
+#   action :create
+#   notifies :create, 'file[/srv/monkey_web/app.env]', :immediately
+#   notifies :create, 'file[/srv/monkey_web/docker-compose.yml]', :immediately
+#   notifies :sync, 'application_git[/srv/monkey_web]', :immediately
+# end
