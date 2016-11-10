@@ -20,6 +20,8 @@ if File.exist?('/srv/monkey_web/docker-compose-prod.yml')
   end
 end
 
+# get app
+app = search("aws_opsworks_app", "shortname:monkey_web").first
 # populate app.env file
 ruby_block "insert_line" do
   block do
@@ -65,8 +67,6 @@ execute 'up-containers' do
     end
 end
 
-# get app
-app = search("aws_opsworks_app", "shortname:monkey_web").first
 Chef::Log.info("==================#{app['app_source']['ssh_key']}")
 # clone repository
 application_git '/srv/monkey_web' do
