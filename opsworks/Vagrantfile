@@ -84,7 +84,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
 
     chef.run_list = [
-      'recipe[monkey_socket::default]'
+      'recipe[opsworks::default]'
     ]
   end
 end

@@ -12,5 +12,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[monkey_web::default]
+      - recipe[opsworks::default]
     attributes:

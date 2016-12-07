@@ -1,6 +1,6 @@
 {
-  "name": "monkey_socket",
-  "description": "Deploy monkey socket",
+  "name": "opsworks",
+  "description": "Deploy generic app with opsworks and docker-compose",
   "long_description": "",
   "maintainer": "Criptext Inc",
   "maintainer_email": "gianni@criptext.com",
@@ -29,7 +29,7 @@
   "groupings": {
   },
   "recipes": {
-    "criptext": "Deploy monkey socket"
+    "criptext": "Deploy generic app with opsworks and docker-compose"
   },
   "version": "0.0.1",
   "source_url": "",
