@@ -61,7 +61,7 @@ ruby_block "insert_line" do
 end
 
 # create external env files
-ruby_block "create_external_files" do
+ruby_block "fill_external_files" do
   block do
     node['external-files'].each do |file_var|
       file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
@@ -72,6 +72,21 @@ ruby_block "create_external_files" do
   end
   action :nothing
   notifies :create, "ruby_block[insert_line]", :immediately
+end
+
+# make sure all external files exists
+ruby_block "create_external_files" do
+  block do
+    node['external-files'].each do |file_var|
+      file "/srv/#{node['app']}/#{file_var['path']}" do
+        content ''
+        action :create
+        only_if do ::Dir.exists?("/srv/#{node['app']}") end
+      end
+    end
+  end
+  action :nothing
+  notifies :create, "ruby_block[fill_external_files]", :immediately
 end
 
 # make sure file app.env exists
