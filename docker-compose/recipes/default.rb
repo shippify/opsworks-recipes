@@ -13,6 +13,8 @@ service 'Docker' do
   action %w(enable start)
 end
 
-python_package 'docker-compose'
+python_package 'docker-compose' do
+  version '1.9.0'
+end
 
 include_recipe 'docker-compose::cron'
