@@ -66,8 +66,11 @@ ruby_block "fill_external_files" do
     node['external-files'].each do |file_var|
       file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
       env_var = file_var['environment']
-      file.insert_line_if_no_match("/#{env_var[0]}=#{env_var[1]}/", "#{env_var[0]}=#{env_var[1]}")
-      file.write_file
+
+      env_var.each do |key, value|
+        file.insert_line_if_no_match("/#{key}=#{value}/", "#{key}=#{value}")
+        file.write_file
+      end
     end
   end
   action :nothing
