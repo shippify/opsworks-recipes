@@ -78,11 +78,7 @@ end
 ruby_block "create_external_files" do
   block do
     node['external-files'].each do |file_var|
-      file "/srv/#{node['app']}/#{file_var['path']}" do
-        content ''
-        action :create
-        only_if do ::Dir.exists?("/srv/#{node['app']}") end
-      end
+      FileUtils::touch "/srv/#{node['app']}/#{file_var['path']}"
     end
   end
   action :nothing
