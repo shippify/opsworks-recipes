@@ -60,12 +60,26 @@ ruby_block "insert_line" do
   notifies :create, "file[/srv/#{node['app']}/docker-compose.yml]", :immediately
 end
 
+# create external env files
+ruby_block "create_external_files" do
+  block do
+    node['external-files'].each do |file_var|
+      file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
+      env_var = file_var['environment']
+      file.insert_line_if_no_match("/#{env_var[0]}=#{env_var[1]}/", "#{env_var[0]}=#{env_var[1]}")
+      file.write_file
+    end
+  end
+  action :nothing
+  notifies :create, "ruby_block[insert_line]", :immediately
+end
+
 # make sure file app.env exists
 file "/srv/#{node['app']}/app.env" do
   content ''
   action :nothing
   only_if do ::Dir.exists?("/srv/#{node['app']}") end
-  notifies :create, 'ruby_block[insert_line]', :immediately
+  notifies :create, 'ruby_block[create_external_files]', :immediately
 end
 
 # delete previous folder
