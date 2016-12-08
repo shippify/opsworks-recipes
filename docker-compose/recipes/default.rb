@@ -17,4 +17,10 @@ python_package 'docker-compose' do
   version '1.9.0'
 end
 
+bash 'update_docker_compose' do
+  code <<-EOH
+  sudo pip install docker-compose --upgrade
+  EOH
+end
+
 include_recipe 'docker-compose::cron'
