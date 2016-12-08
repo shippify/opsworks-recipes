@@ -1,14 +1,18 @@
 
 instance = search("aws_opsworks_instance", "self:true").first
 
-targets = ""
+node['balancers'].each do |balancer|
 
-node['ports'].each do |port_var|
-  targets = targets + "Id=#{instance['ec2_instance_id']},Port=#{port_var} "
-end
+  targets = ""
 
-bash 'register_balancer' do
-  code <<-EOH
-  aws elbv2 register-targets --target-group-arn #{node['target-group-arn']} --targets #{targets} --region #{node['region']}
-  EOH
+  balancer['ports'].each do |port_var|
+    targets = targets + "Id=#{instance['ec2_instance_id']},Port=#{port_var} "
+  end
+
+  bash 'register_balancer' do
+    code <<-EOH
+    aws elbv2 register-targets --target-group-arn #{balancer['target-group-arn']} --targets #{targets} --region #{balancer['region']}
+    EOH
+  end
+
 end
