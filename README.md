@@ -18,7 +18,6 @@ This helps automates your project deployments using Amazon Opsworks, Git, Docker
 
 The list of supported parameters in the Custom JSON are:
 - `app` - (\<String\>) name of your app (no spaces).
-- `balancers` - (Array\<Object\>) target groups to which to register your instance. These Objects should have: `target-group-arn`(\<String\>), `region` (\<String\>), `ports` (Array\<String\>)
 - `external-files` (Array\<Object\>) extra files that you may need for your project. These Objects should have: `path` (\<String\>), `environment`(Object\<String:String\>)
 - `commands` (Array\<String\>) commands that you want executed in your instance.
 
@@ -26,14 +25,6 @@ Here is an example:
 ```javascript
 {
 "app":<my_app_name>,
-"balancers":[{
-"target-group-arn":<amazon target group ARN>,
-"region":<amazon region (e.g. us-west-2)>,
-"ports":[<port 1>]
-},
-.
-.
-.],
 "external-files":[{
 "path":<path/to/file.js>,
 "environment":{
@@ -74,6 +65,39 @@ This will update your processes without rebuilding your containers. If you can't
 - `setup`: docker-compose::default
 - `deploy`: opsworks::deploy
 
+### ALB
+Opsworks doesn't support yet a native integration between layers and Application Load Balancers, so this cookbook bridges that gap.
+
+#### Prerequisites
+You need to give EC2 permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to register the instance to the existing target groups. This recipe also requires a parameter in the Custom JSON: 
+
+- `balancers` - (Array\<Object\>) target groups to which to register your instance. These Objects should have: `target-group-arn`(\<String\>), `region` (\<String\>), `ports` (Array\<String\>)
+
+Here is an example:
+```javascript
+{
+"balancers":[{
+"target-group-arn":<amazon target group ARN>,
+"region":<amazon region (e.g. us-west-2)>,
+"ports":[<port 1>]
+},
+.
+.
+.
+]}
+```
+
+#### Recipes
+
+##### register
+This will register the instance with all the declared target groups declared in the Custom JSON
+
+##### deregister
+This will deregister the instance with all the declared target groups declared in the Custom JSON.
+
+<b>Important!</b>
+
+You should consider that if you have draining enabled for your load balancer, once you deregister your instance, it will enter into `draining` state, during this state you won't be able to register your instance back again and will generate a silent error.
 ### How do I get set up? ###
 
 * You just need an Amazon Web Service account.
