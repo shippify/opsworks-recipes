@@ -98,6 +98,34 @@ This will deregister the instance with all the declared target groups declared i
 <b>Important!</b>
 
 You should consider that if you have draining enabled for your load balancer, once you deregister your instance, it will enter into `draining` state, during this state you won't be able to register your instance back again and will generate a silent error.
+
+### Lambda
+Execute lambda functions
+
+#### Prerequisites
+You need to give lambda permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to execute the functions. This recipe also requires a parameter in the Custom JSON: 
+
+- `lambda` - (Array\<Object\>) lambda functions to execute. These Objects should have: `function-arn`(\<String\>), `region` (\<String\>), `payload` (Object\<String:String\>)
+
+Here is an example:
+```javascript
+{
+"lambda":[{
+"function-arn":<lambda ARN>,
+"region":<amazon region (e.g. us-west-2)>,
+"payload":{"key1":"value1"}
+},
+.
+.
+.
+]}
+```
+
+#### Recipes
+
+##### invoke
+This will execute all the lambda functions declared in the Custom JSON
+
 ### How do I get set up? ###
 
 * You just need an Amazon Web Service account.
