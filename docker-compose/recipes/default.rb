@@ -14,7 +14,7 @@ service 'Docker' do
 end
 
 python_package 'docker-compose' do
-  version '1.9.0'
+  version '1.10.1'
 end
 
 bash 'update_docker_compose' do
