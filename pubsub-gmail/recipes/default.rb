@@ -1,7 +1,6 @@
 bash 'run_command' do
   code <<-EOH
-	  # Update YUM with Cloud SDK repo information:
-		sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+	  sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
 		[google-cloud-sdk]
 		name=Google Cloud SDK
 		baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
@@ -11,10 +10,6 @@ bash 'run_command' do
 		gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 		       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 		EOM
-		
-		# The indentation for the 2nd line of <code>gpgkey</code> is important.
-		
-		# Install the Cloud SDK
-		yum install google-cloud-sdk
+		yum install google-cloud-sdk -y
   EOH
 end
