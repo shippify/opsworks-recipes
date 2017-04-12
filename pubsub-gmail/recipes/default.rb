@@ -10,8 +10,12 @@ bash 'run_command' do
 		repo_gpgcheck=1
 		gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 		       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-		EOM	  
-	  
+		EOM
+  EOH
+end
+
+bash 'install_command' do
+  code <<-EOH
 		yum install google-cloud-sdk && gcloud init
   EOH
 end
