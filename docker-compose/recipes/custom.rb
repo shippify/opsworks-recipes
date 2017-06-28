@@ -19,15 +19,8 @@ service 'Docker' do
   action %w(enable start)
 end
 
-def get_install_url
-  release = node['docker_compose']['release']
-  kernel_name = node['kernel']['name']
-  machine_hw_name = node['kernel']['machine']
-  "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64"
-end
-
 command_path = "/usr/local/bin/docker-compose"
-install_url = get_install_url
+install_url = "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64"
 
 package 'curl' do
   action :install
