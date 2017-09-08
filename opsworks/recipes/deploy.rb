@@ -40,8 +40,10 @@ end
 # copy files
 ruby_block "copy_files" do
   block do
-    node['copy-files'].each do |file_var|
-      FileUtils::cp "#{file_var['source']}", "/#{file_var['destination']}"
+    unless node['copy-files'].nil?
+      node['copy-files'].each do |file_var|
+        FileUtils::cp "#{file_var['source']}", "/#{file_var['destination']}"
+      end
     end
   end
   action :nothing
@@ -75,13 +77,15 @@ end
 # create external env files
 ruby_block "fill_external_files" do
   block do
-    node['external-files'].each do |file_var|
-      file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
-      env_var = file_var['environment']
+    unless node['copy-files'].nil?
+      node['external-files'].each do |file_var|
+        file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
+        env_var = file_var['environment']
 
-      env_var.each do |key, value|
-        file.insert_line_if_no_match("/#{key}=#{value}/", "#{key}=#{value}")
-        file.write_file
+        env_var.each do |key, value|
+          file.insert_line_if_no_match("/#{key}=#{value}/", "#{key}=#{value}")
+          file.write_file
+        end
       end
     end
   end
