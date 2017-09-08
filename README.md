@@ -35,6 +35,10 @@ Here is an example:
 .
 }
 }],
+"copy-files":[{
+  "source": <absolute path of source file>,
+  "destination": <absolute path of destination file>
+}],
 "commands":["sudo docker exec -i my_container npm install",
 "sudo docker exec -i my_container npm run build",
 "sudo docker exec -i my_container supervisorctl restart all"]
@@ -56,6 +60,9 @@ This recipe will execute the commands passed in the Custom JSON
 ##### pull
 This recipe will pull the latest changes from the deployed app
 
+##### copy
+This recipe will execute the `copy-files` parameter passed in the Custom JSON
+
 #### Recommendations
 One fast way to update your servers would be to have in your layer:
 - `setup`: docker-compose::default, opsworks::deploy
@@ -69,7 +76,7 @@ This will update your processes without rebuilding your containers. If you can't
 Opsworks doesn't support yet a native integration between layers and Application Load Balancers, so this cookbook bridges that gap.
 
 #### Prerequisites
-You need to give EC2 permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to register the instance to the existing target groups. This recipe also requires a parameter in the Custom JSON: 
+You need to give EC2 permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to register the instance to the existing target groups. This recipe also requires a parameter in the Custom JSON:
 
 - `balancers` - (Array\<Object\>) target groups to which to register your instance. These Objects should have: `target-group-arn`(\<String\>), `region` (\<String\>), `ports` (Array\<String\>)
 
@@ -103,7 +110,7 @@ You should consider that if you have draining enabled for your load balancer, on
 Execute lambda functions
 
 #### Prerequisites
-You need to give lambda permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to execute the functions. This recipe also requires a parameter in the Custom JSON: 
+You need to give lambda permissions to your user registered in your panel in Opsworks, otherwise the recipe won't be able to execute the functions. This recipe also requires a parameter in the Custom JSON:
 
 - `lambda` - (Array\<Object\>) lambda functions to execute. These Objects should have: `function-arn`(\<String\>), `region` (\<String\>), `payload` (Object\<String:String\>)
 
