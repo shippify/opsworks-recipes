@@ -77,7 +77,7 @@ end
 # create external env files
 ruby_block "fill_external_files" do
   block do
-    unless node['copy-files'].nil?
+    unless node['external-files'].nil?
       node['external-files'].each do |file_var|
         file = Chef::Util::FileEdit.new("/srv/#{node['app']}/#{file_var['path']}")
         env_var = file_var['environment']
@@ -96,8 +96,10 @@ end
 # make sure all external files exists
 ruby_block "create_external_files" do
   block do
-    node['external-files'].each do |file_var|
-      FileUtils::touch "/srv/#{node['app']}/#{file_var['path']}"
+    unless node['external-files'].nil?
+      node['external-files'].each do |file_var|
+        FileUtils::touch "/srv/#{node['app']}/#{file_var['path']}"
+      end
     end
   end
   action :nothing
