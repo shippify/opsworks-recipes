@@ -37,12 +37,24 @@ execute 'stop-containers' do
     end
 end
 
+# copy files
+ruby_block "copy_files" do
+  block do
+    node['copy-files'].each do |file_var|
+      FileUtils::cp "#{file_var['source']}", "/#{file_var['destination']}"
+    end
+  end
+  action :nothing
+  notifies :run, 'execute[stop-containers]', :immediately
+end
+
+# TODO: remove this block
 # create docker-compose file
 file "/srv/#{node['app']}/docker-compose.yml" do
     action :nothing
     content lazy { IO.read("/srv/#{node['app']}/docker-compose-prod.yml") }
     only_if do ::File.exists?("/srv/#{node['app']}/docker-compose-prod.yml") end
-    notifies :run, 'execute[stop-containers]', :immediately
+    notifies :create, 'copy_files', :immediately
 end
 
 # get app

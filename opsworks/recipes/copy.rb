@@ -1,4 +1,4 @@
-# copy external env files
+# copy files
 ruby_block "copy_files" do
   block do
     node['copy-files'].each do |file_var|
