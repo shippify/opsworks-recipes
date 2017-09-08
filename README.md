@@ -19,6 +19,7 @@ This helps automates your project deployments using Amazon Opsworks, Git, Docker
 The list of supported parameters in the Custom JSON are:
 - `app` - (\<String\>) name of your app (no spaces).
 - `external-files` (Array\<Object\>) extra files that you may need for your project. These Objects should have: `path` (\<String\>), `environment`(Object\<String:String\>)
+- `copy-files` (Array\<Object\>) intended to copy file templates under a new name that you may need for your project. These Objects should have: `source` (\<String\>), `destination`(\<String\>)
 - `commands` (Array\<String\>) commands that you want executed in your instance.
 
 Here is an example:
