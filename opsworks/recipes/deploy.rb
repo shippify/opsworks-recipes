@@ -54,7 +54,7 @@ file "/srv/#{node['app']}/docker-compose.yml" do
     action :nothing
     content lazy { IO.read("/srv/#{node['app']}/docker-compose-prod.yml") }
     only_if do ::File.exists?("/srv/#{node['app']}/docker-compose-prod.yml") end
-    notifies :create, 'copy_files', :immediately
+    notifies :create, 'ruby_block[copy_files]', :immediately
 end
 
 # get app
