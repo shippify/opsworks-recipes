@@ -57,7 +57,7 @@ file "/srv/#{node['app']}/docker-compose.yml" do
     custom_compose = !node.key?('custom_compose') || node['custom_compose'].empty?  ? 'docker-compose-prod.yml' : node['custom_compose']
     content lazy { IO.read("/srv/#{node['app']}/#{custom_compose}") }
     only_if do ::File.exists?("/srv/#{node['app']}/#{custom_compose}") end
-    notifies :run, 'execute[stop-containers]', :immediately
+    notifies :run, 'ruby_block[copy_files]', :immediately
 end
 
 # get app
