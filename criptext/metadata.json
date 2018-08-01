@@ -13,7 +13,7 @@
     "git": ">= 0.0.0",
     "application": ">= 0.0.0",
     "application_git": ">= 0.0.0",
-    "nodejs": ">= 5.0.0'
+    "nodejs": ">= 5.0.0"
   },
   "recommendations": {
   },
