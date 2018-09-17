@@ -149,8 +149,10 @@ bash 'install_nvm' do
 	action:nothing
 	notifies :run, 'bash[install_node]', :immediately
 code <<-EOH
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash << EOM
 source ~/.bashrc
+. ~/.nvm/nvm.sh
+EOM
 EOH
 end
 
