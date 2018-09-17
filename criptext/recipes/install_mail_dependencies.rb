@@ -1,7 +1,7 @@
 bash 'supervisor_init' do
 	action:nothing
 code <<-EOH
-sudo su -
+sudo su - << EOM
 pip install -U supervisor
 mkdir -p /etc/supervisor/conf.d
 echo_supervisord_conf > /etc/supervisor/supervisord.conf
@@ -131,6 +131,7 @@ EOF
 chmod a+x /etc/init.d/supervisord
 cp /srv/keyserver/supervisor.conf /etc/supervisor/conf.d/api_server.conf
 service supervisord start
+EOM
 EOH
 end
 
