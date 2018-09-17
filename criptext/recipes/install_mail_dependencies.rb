@@ -152,7 +152,6 @@ bash 'install_nvm' do
 code <<-EOH
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash << EOM
 source ~/.bashrc
-. ~/.nvm/nvm.sh
 EOM
 EOH
 end
