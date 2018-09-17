@@ -1,6 +1,5 @@
 bash 'supervisor_init' do
 	action:nothing
-	notifies :run, 'bash[install_command]', :immediately
 code <<-EOH
 sudo su -
 pip install -U supervisor
