@@ -23,3 +23,24 @@ remote_file '/etc/yum.repos.d/yarn.repo' do
 end
 
 package 'yarn' 
+
+cookbook_file '/etc/supervisor/supervisord.conf' do
+  source 'supervisord.conf'
+  mode '0511'
+end
+
+cookbook_file '/etc/init.d/supervisord' do
+  source 'supervisord'
+  mode '0711'
+end
+
+bash 'install supervisor' do
+  code <<-EOH
+    pip install -U supervisor
+    mkdir -p /etc/supervisor/conf.d
+    echo_supervisord_conf > /etc/supervisor/supervisord.conf
+    cp /srv/keyserver/supervisor.conf /etc/supervisor/conf.d/api_server.conf
+    service supervisord start
+  EOH
+end
+
