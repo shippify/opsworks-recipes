@@ -24,6 +24,18 @@ end
 
 package 'yarn' 
 
+directory '/etc/supervisor' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+directory '/etc/init.d' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
 cookbook_file '/etc/supervisor/supervisord.conf' do
   source 'supervisord.conf'
   mode '0511'
