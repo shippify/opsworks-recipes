@@ -11,8 +11,8 @@ bash 'install node via nvm' do
 end
 
 
-yum_repository 'yarn repo' do
-  action :create
-  baseurl 'https://dl.yarnpkg.com/rpm/yarn.repo'
+remote_file '/etc/yum.repos.d/yarn.repo' do
+  source 'https://dl.yarnpkg.com/rpm/yarn.repo'
 end
+
 package "yarn"
