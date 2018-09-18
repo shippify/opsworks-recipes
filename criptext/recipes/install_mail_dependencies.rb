@@ -5,6 +5,7 @@ end
 bash 'install node via nvm' do
   code <<-EOH
     bash '/root/nvm_install.sh'
+    source '/root/.nvm/nvm.sh'
     nvm install 10.10
   EOH
 end
