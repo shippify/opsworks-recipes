@@ -49,10 +49,7 @@ end
 bash 'install supervisor' do
   code <<-EOH
     pip install -U supervisor
-    mkdir -p /etc/supervisor/conf.d
     echo_supervisord_conf > /etc/supervisor/supervisord.conf
-    cp /srv/keyserver/supervisor.conf /etc/supervisor/conf.d/api_server.conf
-    service supervisord start
   EOH
 end
 
