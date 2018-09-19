@@ -1,4 +1,5 @@
 
+Chef::Log.level = :debug
 path_supervisor_conf = "/etc/supervisor/conf.d/api_server.conf"
 
 #clone repository
@@ -9,7 +10,7 @@ application_git "/srv/#{node['app']}" do
 end
 
 #copy supervisor conf
-bash 'restart_supervisor' do
+bash 'copy_supervisor_conf_file' do
   code <<-EOH
     cp /srv/keyserver/supervisor.conf #{path_supervisor_conf}
   EOH
@@ -20,10 +21,12 @@ supervisor_conf_file = File.read(path_supervisor_conf)
 ruby_block "export_vars" do
   block do
     app['environment'].each do |env_var|
+      Chef::Log.debug("#{env_var[0]} => #{env_var[1]}")
       supervisor_conf_file = supervisor_conf_file.gsub("%(ENV_#{env_var[0]})s", env_var[1])
     end
   end
 end
+Chef::Log.debug(supervisor_conf_file)
 File.write(path_supervisor_conf, supervisor_conf_file)
 
 #install dependencies
