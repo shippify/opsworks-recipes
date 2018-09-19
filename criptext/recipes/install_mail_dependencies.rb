@@ -24,11 +24,12 @@ end
 
 package 'yarn' 
 
-directory '/etc/supervisor' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
+bash 'install supervisor' do
+    code <<-EOH
+      pip install -U supervisor
+      echo_supervisord_conf > /etc/supervisor/supervisord.conf
+    EOH
+  end
 
 directory '/etc/init.d' do
   owner 'root'
@@ -46,10 +47,5 @@ cookbook_file '/etc/init.d/supervisord' do
   mode '0711'
 end
 
-bash 'install supervisor' do
-  code <<-EOH
-    pip install -U supervisor
-    echo_supervisord_conf > /etc/supervisor/supervisord.conf
-  EOH
-end
+
 
