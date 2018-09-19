@@ -21,14 +21,11 @@ supervisor_conf_file = File.read(path_supervisor_conf)
 ruby_block "export_vars" do
   block do
     app['environment'].each do |env_var|
-      supervisor_conf_file = supervisor_conf_file.gsub("%(ENV_#{env_var[0]})s", env_var[1])
+      supervisor_conf_file.gsub!("%(ENV_#{env_var[0]})s", env_var[1])
     end
   end
 end
-File.open(path_supervisor_conf, "w") {|file| 
-  Chef::Log.debug("Abrio el archivo")
-  file.write(supervisor_conf_file)
-}
+File.open(path_supervisor_conf, "w") { |file| file << supervisor_conf_file }
 
 f = File.open(path_supervisor_conf)
 f.each {|line|
