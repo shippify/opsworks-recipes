@@ -33,7 +33,6 @@ File.open(path_supervisor_conf, "w") {|file|
 supervisor_conf_file = File.read(path_supervisor_conf)
 f.each {|line|
   Chef::Log.debug(line)
-  end
 }
 
 #install dependencies
