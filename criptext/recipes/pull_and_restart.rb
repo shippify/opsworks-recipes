@@ -6,8 +6,8 @@ application_git "/srv/#{node['app']}" do
 end
 
 bash 'yarn install' do
-    code <<-EOH
-      cd /srv/keyserver
+  cwd '/srv/keyserver'
+  code <<-EOH
       yarn --frozen-lockfile
     EOH
   end
