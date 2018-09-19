@@ -38,7 +38,7 @@ fi
 supervisorctl=/usr/local/bin/supervisorctl
 supervisord=${SUPERVISORD-/usr/local/bin/supervisord}
 prog=supervisord
-pidfile=${PIDFILE-/tmp/supervisord.pid}
+pidfile=${PIDFILE-/var/run/supervisord.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/supervisord}
 STOP_TIMEOUT=${STOP_TIMEOUT-60}
 OPTIONS="${OPTIONS--c /etc/supervisor/supervisord.conf}"
