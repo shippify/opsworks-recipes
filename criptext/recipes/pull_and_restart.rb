@@ -1,4 +1,5 @@
 
+Chef::Log.level = :debug
 path_supervisor_conf = "/etc/supervisor/conf.d/api_server.conf"
 
 #clone repository
@@ -24,7 +25,16 @@ ruby_block "export_vars" do
     end
   end
 end
-File.open(path_supervisor_conf, "w") {|file| file.puts supervisor_conf_file }
+File.open(path_supervisor_conf, "w") {|file| 
+  Chef::Log.debug("Abrio el archivo")
+  file.write(supervisor_conf_file)
+}
+
+supervisor_conf_file = File.read(path_supervisor_conf)
+f.each {|line|
+  Chef::Log.debug(line)
+  end
+}
 
 #install dependencies
 bash 'yarn install' do
