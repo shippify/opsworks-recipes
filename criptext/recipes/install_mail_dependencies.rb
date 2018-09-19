@@ -28,6 +28,7 @@ bash 'install supervisor' do
     code <<-EOH
       pip install -U supervisor
       echo_supervisord_conf > /etc/supervisor/supervisord.conf
+      mkdir /var/log/supervisor
       cat > /var/log/supervisor/supervisord.log
     EOH
   end
