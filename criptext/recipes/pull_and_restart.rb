@@ -30,7 +30,7 @@ File.open(path_supervisor_conf, "w") {|file|
   file.write(supervisor_conf_file)
 }
 
-supervisor_conf_file = File.read(path_supervisor_conf)
+f = File.read(path_supervisor_conf)
 f.each {|line|
   Chef::Log.debug(line)
 }
