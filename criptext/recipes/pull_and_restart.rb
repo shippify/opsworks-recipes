@@ -21,12 +21,11 @@ supervisor_conf_file = File.read(path_supervisor_conf)
 ruby_block "export_vars" do
   block do
     app['environment'].each do |env_var|
-      Chef::Log.debug("#{env_var[0]} => #{env_var[1]}")
       supervisor_conf_file = supervisor_conf_file.gsub("%(ENV_#{env_var[0]})s", env_var[1])
     end
   end
 end
-Chef::Log.debug(supervisor_conf_file)
+Chef::Log.debug("supervisor_conf_file: #{supervisor_conf_file}")
 File.write(path_supervisor_conf, supervisor_conf_file)
 
 #install dependencies
