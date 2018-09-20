@@ -21,7 +21,7 @@ ruby_block "replace_vars" do
   block do
     app['environment'].each do |env_var|
       file = Chef::Util::FileEdit.new(path_supervisor_conf)
-      file.search_file_replace("/%\(ENV_#{env_var[0]}\)s/", "#{env_var[1]}")
+      file.search_file_replace(/%\(ENV_#{env_var[0]}\)s/, "#{env_var[1]}")
       file.write_file
     end
   end
