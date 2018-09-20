@@ -1,5 +1,5 @@
 
-#Chef::Log.level = :debug
+Chef::Log.level = :debug
 path_supervisor_conf = "/etc/supervisor/conf.d/api_server.conf"
 
 #clone repository
@@ -22,6 +22,11 @@ ruby_block "replace_vars" do
     app['environment'].each do |env_var|
       file = Chef::Util::FileEdit.new(path_supervisor_conf)
       file.search_file_replace(/%\(ENV_#{env_var[0]}\)s/, "#{env_var[1]}")
+      if file.file_edited
+        Chef::Log.debug('archivo editado')
+      else
+        Chef::Log.debug('archivo no editado')
+      end
       file.write_file
     end
   end
