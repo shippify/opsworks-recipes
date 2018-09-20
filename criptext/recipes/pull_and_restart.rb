@@ -1,5 +1,5 @@
 
-Chef::Log.level = :debug
+#Chef::Log.level = :debug
 path_supervisor_conf = "/etc/supervisor/conf.d/api_server.conf"
 
 #clone repository
@@ -17,22 +17,15 @@ bash 'copy_supervisor_conf_file' do
 end
 
 #replace environment variables to supervisor conf
-supervisor_conf_file = File.read(path_supervisor_conf)
 ruby_block "replace_vars" do
   block do
     app['environment'].each do |env_var|
-      supervisor_conf_file.gsub!("%(ENV_#{env_var[0]})s", "#{env_var[1]}")
+      file = Chef::Util::FileEdit.new(path_supervisor_conf)
+      file.search_file_replace("/%(ENV_#{env_var[0]})s/", "#{env_var[1]}")
+      file.write_file
     end
   end
 end
-Chef::Log.debug("resultado es: #{supervisor_conf_file}")
-
-File.open(path_supervisor_conf, "w") { |file| file << supervisor_conf_file }
-
-f = File.open(path_supervisor_conf)
-f.each {|line|
-  Chef::Log.debug(line)
-}
 
 #install dependencies
 bash 'yarn install' do
