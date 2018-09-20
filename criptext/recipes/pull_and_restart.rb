@@ -17,15 +17,15 @@ bash 'copy_supervisor_conf_file' do
 end
 
 #replace environment variables to supervisor conf
-supervisor_file = Chef::Util::FileEdit.new(path_supervisor_conf)
 ruby_block "replace_vars" do
   block do
     app['environment'].each do |env_var|
-      supervisor_file.search_file_replace(/%\(ENV_#{env_var[0]}\)s/, "#{env_var[1]}")
+      file = Chef::Util::FileEdit.new(path_supervisor_conf)
+      file.search_file_replace(/%\(ENV_#{env_var[0]}\)s/, "#{env_var[1]}")
+      file.write_file
     end
   end
 end
-supervisor_file.write_file
 
 #install dependencies
 bash 'yarn install' do
