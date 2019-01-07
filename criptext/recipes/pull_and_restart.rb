@@ -12,7 +12,7 @@ end
 #copy supervisor conf
 bash 'copy_supervisor_conf_file' do
   code <<-EOH
-    cp /srv/keyserver/supervisor.conf #{path_supervisor_conf}
+    cp /srv/#{node['app']}/supervisor.conf #{path_supervisor_conf}
   EOH
 end
 
@@ -29,7 +29,7 @@ end
 
 #install dependencies
 bash 'yarn install' do
-  cwd '/srv/keyserver'
+  cwd "/srv/#{node['app']}"
   code <<-EOH
       yarn --frozen-lockfile
     EOH
