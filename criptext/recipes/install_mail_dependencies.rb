@@ -26,7 +26,7 @@ package 'yarn'
 
 bash 'install supervisor' do
     code <<-EOH
-      pip install -U supervisor
+      pip install -U supervisor==3.3.4
       echo_supervisord_conf > /etc/supervisor/supervisord.conf
       mkdir /var/log/supervisor
       cat > /var/log/supervisor/supervisord.log
