@@ -58,6 +58,17 @@ cron 'delete_blacklisted_emails' do
   command "/usr/bin/node /srv/keyserver/scripts/src/purge-blacklisted-emails.js"
 end
 
+cron 'delete_blacklisted_emails' do
+  action :create
+  minute '00'
+  hour '13'
+  weekday '1'
+  user 'ec2-user'
+  mailto "javier@criptext.com,daniel@criptext.com"
+  environment app['environment']
+  command "/usr/bin/node /srv/keyserver/api-server/src/scripts/deleteAccountsForInactivity.js"
+end
+
 #restart supervisor
 bash 'restart_supervisor' do
   code <<-EOH
