@@ -37,6 +37,18 @@ execute 'stop-containers' do
     end
 end
 
+execute 'ecr-login' do
+  only_if do ::Dir.exists?("/srv/#{node['app']}") end
+  cwd "/srv/#{node['app']}/"
+  command '$(aws ecr get-login --no-include-email)'
+  action :nothing
+  notifies :run, 'execute[stop-containers]', :immediately
+  case node[:platform]
+  when 'ubuntu'
+    environment 'COMPOSE_API_VERSION' => '1.18'
+  end
+end
+
 # copy files
 ruby_block "copy_files" do
   block do
