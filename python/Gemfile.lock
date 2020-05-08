@@ -76,7 +76,7 @@ GEM
     fauxhai (2.0.1)
       net-ssh
       ohai
-    ffi (1.9.3)
+    ffi (1.12.2)
     foodcritic (3.0.3)
       erubis
       gherkin (~> 2.11.7)
